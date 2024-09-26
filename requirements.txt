@@ -1,0 +1,6 @@
+flask==2.3.2                 # Flask for API/webserver
+requests==2.31.0             # For making HTTP requests (Ollama model integration)
+langflow==1.0.18             # Version of Langflow you're using
+langchain==0.0.319           # Langflow depends on langchain (verify compatibility)
+ollama==0.1.45               # Ollama for llama3 model
+nomic==1.4.0                 # For embeddings model
