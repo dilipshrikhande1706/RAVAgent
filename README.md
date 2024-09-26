@@ -1,26 +1,49 @@
-Download and Install Ollama from https://ollama.com/
+# RAVAgent
 
-Download relevant llama models: ollama pull llama3
+RAVAgent is a Retrieval-Augmented Generation (RAG) project that leverages Langflow and Ollama's LLaMA model for conversational AI, designed to assist with tasks related to the Swiss unemployment system (RAV).
 
-Run ollama - ollama run llama3
+## Prerequisites
+- Python 3.8+
+- [Ollama](https://ollama.com) (Make sure it's running on `http://localhost:11434`)
+- [Langflow](https://github.com/logspace-ai/langflow)
 
-Ollama should be running here http://localhost:11434/
+## Setup Instructions
 
-Install langflow: pip install langflow
+1. **Clone the Repository**:
+    ```bash
+    git clone https://github.com/dilipshrikhande1706/RAVAgent.git
+    cd RAVAgent
+    ```
 
-To run langflow: langflow run
+2. **Install Dependencies**:
+    Install required Python libraries:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-This should open langflow in browser: http://127.0.0.1:7860/all
+3. **Set Up Ollama**:
+    Download the LLaMA model:
+    ```bash
+    ollama pull llama3
+    ```
+    Start Ollama locally:
+    ```bash
+    ollama run llama3
+    ```
 
-Now open the project json file
+4. **Run Langflow**:
+    Install Langflow and run it:
+    ```bash
+    pip install langflow
+    langflow run
+    ```
 
-Make necessary connections: Database tokens, API Endpoint, collection details
+5. **Load the Flow**:
+   - Open `Langflow` in your browser and upload the flow JSON file (`RAG_LLAMA_LATAQ.json`).
+   - Configure the LLaMA model and embeddings.
 
-Select the correct Ollama LLM model
+6. **Run the Agent**:
+    Test the agent locally through Langflow's interface.
 
-Select the correct embeddings
-
-
-
-Click on the playground and chat with the agent.
-You could as well copy the API code (python, html) to integrate with your app
+## Environment Variables
+- Make sure to set up any necessary environment variables or API keys in `.env` file.
