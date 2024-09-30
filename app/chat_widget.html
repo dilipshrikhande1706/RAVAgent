@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAV_AGENT Chat Widget</title>
+    <script src="https://cdn.jsdelivr.net/gh/logspace-ai/langflow-embedded-chat@v1.0.6/dist/build/static/js/bundle.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        langflow-chat {
+            width: 400px; /* Adjust the width as needed */
+            height: 600px; /* Adjust the height as needed */
+        }
+    </style>
+</head>
+<body>
+    <langflow-chat
+        window_title="RAV_AGENT (5)"
+        flow_id="db03068a-b5eb-4213-b967-0a3a7c78f7f3"
+        host_url="http://localhost:7860"
+    ></langflow-chat>
+</body>
+</html>
+
