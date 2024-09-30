@@ -47,3 +47,11 @@ RAVAgent is a Retrieval-Augmented Generation (RAG) project that leverages Langfl
 
 ## Environment Variables
 - Make sure to set up any necessary environment variables or API keys in `.env` file.
+
+## Execution Steps
+
+1. Open the project workspace in Pycharm IDE
+
+2. From the project folder, right-click on "run_RAVAgent.py" file and click on Run
+
+This should run langflow project in the background and open the html chat window from where you can start interacting with the RAV Agent :)
