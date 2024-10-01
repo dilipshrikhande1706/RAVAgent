@@ -3,8 +3,7 @@ __pycache__/
 *.pyc
 *.pyo
 
-# Environment variables
-.env
+
 
 # Log files
 *.log
