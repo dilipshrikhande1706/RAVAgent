@@ -9,7 +9,7 @@ langflow_process = subprocess.Popen(['langflow', 'run', '--backend-only'])
 time.sleep(10)  # Adjust this depending on how long Langflow takes to start
 
 # Step 3: Open the HTML file
-html_file = 'file:///Users/dilipshrikhande/PycharmProjects/RAVAgent/app/chat_widget.html'
+html_file = 'file:///Users/prasad/PycharmProjects/RAVAgent/app/chat_widget.html'
 webbrowser.open(html_file)
 
 # Optional: You can handle stopping the Langflow process if needed
