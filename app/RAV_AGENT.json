@@ -1505,7 +1505,7 @@
                                 "placeholder": "",
                                 "show": true,
                                 "name": "api_endpoint",
-                                "value": "https://5471130e-ee63-4607-8492-5a1981d73ebc-us-east1.apps.astra.datastax.com",
+                                "value": "${ASTRA_DB_API_ENDPOINT}",
                                 "display_name": "API Endpoint",
                                 "advanced": false,
                                 "input_types": [
@@ -1840,7 +1840,7 @@
                                 "placeholder": "",
                                 "show": true,
                                 "name": "token",
-                                "value": "AstraCS:wqEtqwDvlIapJtUscXoaNCLK:988e49e9b166af560862b6cfa451bf7b4369b7409c399d6077f7522a5562e28a",
+                                "value": "${ASTRA_DB_TOKEN}",
                                 "display_name": "Astra DB Application Token",
                                 "advanced": false,
                                 "input_types": [
