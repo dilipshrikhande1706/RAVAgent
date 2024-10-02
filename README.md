@@ -56,6 +56,8 @@ langflow run
 1. Open your browser at `http://localhost:7860`.
 2. Upload the flow `RAG_LLAMA_LATAQ.json`.
 3. Set the LLaMA model and configure the embeddings using `nomic-embed-text`.
+![img.png](img.png)
+![img_1.png](img_1.png)
 
 ### 6. Run the Agent
 Test the agent via Langflow's interface with queries related to RAV processes.
