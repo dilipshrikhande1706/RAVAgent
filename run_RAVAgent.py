@@ -4,6 +4,12 @@ import webbrowser
 from pathlib import Path
 import json
 
+# Step 1: Run Langflow in the background
+langflow_process = subprocess.Popen(['langflow', 'run', '--backend-only'])
+
+# Step 2: Wait for the Langflow backend to start (adjust time as needed)
+time.sleep(10)  # Adjust this depending on how long Langflow takes to start
+
 # Function to get flow_id from the JSON file
 def get_flow_id(json_file_path):
     try:
@@ -55,11 +61,6 @@ def inject_flow_id_to_html(html_file_path, flow_id):
         print(f"An error occurred while modifying the HTML file: {e}")
         return None
 
-# Step 1: Run Langflow in the background
-langflow_process = subprocess.Popen(['langflow', 'run', '--backend-only'])
-
-# Step 2: Wait for the Langflow backend to start (adjust time as needed)
-time.sleep(10)  # Adjust this depending on how long Langflow takes to start
 
 # Step 3: Capture the flow_id from the JSON file
 json_file_path = Path().cwd() / 'app' / 'RAV_AGENT.json'
