@@ -628,7 +628,7 @@
                                 "placeholder": "",
                                 "show": true,
                                 "name": "api_endpoint",
-                                "value": "${ASTRA_DB_API_ENDPOINT}",
+                                "value": "https://5471130e-ee63-4607-8492-5a1981d73ebc-us-east1.apps.astra.datastax.com",
                                 "display_name": "API Endpoint",
                                 "advanced": false,
                                 "input_types": [
@@ -748,7 +748,7 @@
                                 "placeholder": "",
                                 "show": true,
                                 "name": "collection_name",
-                                "value": "${ASTRA_DB_COLLECTION}",
+                                "value": "RAVWebsite",
                                 "display_name": "Collection Name",
                                 "advanced": false,
                                 "dynamic": false,
@@ -963,7 +963,7 @@
                                 "placeholder": "",
                                 "show": true,
                                 "name": "token",
-                                "value": "${ASTRA_DB_TOKEN}",
+                                "value": "AstraCS:wqEtqwDvlIapJtUscXoaNCLK:988e49e9b166af560862b6cfa451bf7b4369b7409c399d6077f7522a5562e28a",
                                 "display_name": "Astra DB Application Token",
                                 "advanced": false,
                                 "input_types": [
@@ -1505,7 +1505,7 @@
                                 "placeholder": "",
                                 "show": true,
                                 "name": "api_endpoint",
-                                "value": "${ASTRA_DB_API_ENDPOINT}",
+                                "value": "https://5471130e-ee63-4607-8492-5a1981d73ebc-us-east1.apps.astra.datastax.com",
                                 "display_name": "API Endpoint",
                                 "advanced": false,
                                 "input_types": [
@@ -1840,7 +1840,7 @@
                                 "placeholder": "",
                                 "show": true,
                                 "name": "token",
-                                "value": "${ASTRA_DB_TOKEN}",
+                                "value": "AstraCS:wqEtqwDvlIapJtUscXoaNCLK:988e49e9b166af560862b6cfa451bf7b4369b7409c399d6077f7522a5562e28a",
                                 "display_name": "Astra DB Application Token",
                                 "advanced": false,
                                 "input_types": [
@@ -2878,7 +2878,7 @@
                             "_type": "Component",
                             "path": {
                                 "trace_as_metadata": true,
-                                "file_path": "a712bb3c-546d-4988-9ccf-043f39d018ba/2024-09-30_16-45-47_SECO_716 200_d_2019_web (2).pdf",
+                        "file_path":"b921e268-4cf9-4134-967e-3e5556921fb4/2024-10-03_22-15-48_SECO_716 200_d_2019_web (2).pdf",
                                 "fileTypes": [
                                     "txt",
                                     "md",
@@ -2904,7 +2904,7 @@
                                 "placeholder": "",
                                 "show": true,
                                 "name": "path",
-                                "value": "",
+                        "value":"SECO_716 200_d_2019_web (2).pdf",
                                 "display_name": "Path",
                                 "advanced": false,
                                 "dynamic": false,
@@ -2983,7 +2983,7 @@
                     },
                     "id": "File-qIUO3"
                 },
-                "selected": false,
+            "selected":true,
                 "width": 384,
                 "height": 302,
                 "positionAbsolute": {
