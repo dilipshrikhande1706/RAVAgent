@@ -4,15 +4,27 @@ import webbrowser
 from pathlib import Path
 import json
 
+import requests
+import json
+
 # Step 1: Run Langflow in the background
 langflow_process = subprocess.Popen(['langflow', 'run', '--backend-only'])
 
 # Step 2: Wait for the Langflow backend to start (adjust time as needed)
 time.sleep(10)  # Adjust this depending on how long Langflow takes to start
 
-import requests
-import json
+# Step 3: Now you can send requests to the Langflow backend
+# For example, you might want to check if it's running:
+try:
+    response = requests.get('http://127.0.0.1:7880/health')  # Assuming this is the health check endpoint
+    if response.status_code == 200:
+        print("Langflow is running!")
+    else:
+        print(f"Unexpected status code: {response.status_code}")
+except requests.exceptions.RequestException as e:
+    print(f"Error connecting to Langflow: {e}")
 
+# Optional: Add your JSON manipulation or other requests here
 
 # Function to upload the flow JSON to Langflow and run it
 def get_flow_id(i_json_file_path, langflow_host="http://127.0.0.1:7880"):
