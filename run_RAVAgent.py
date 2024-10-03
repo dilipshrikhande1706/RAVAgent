@@ -10,27 +10,58 @@ langflow_process = subprocess.Popen(['langflow', 'run', '--backend-only'])
 # Step 2: Wait for the Langflow backend to start (adjust time as needed)
 time.sleep(10)  # Adjust this depending on how long Langflow takes to start
 
-# Function to get flow_id from the JSON file
-def get_flow_id(json_file_path):
+import requests
+import json
+
+
+# Function to upload the flow JSON to Langflow and run it
+def get_flow_id(i_json_file_path, langflow_host="http://127.0.0.1:7880"):
+    # Read the JSON file content
+    with open(i_json_file_path, 'r') as f:
+        flow_data = json.load(f)
+
+    # Assuming Langflow has an endpoint like `/api/v1/flows`
+    upload_url = f"{langflow_host}/api/v1/flows"
+
     try:
-        # Open and read the JSON file
-        with open(json_file_path, 'r') as f:
-            flow_data = json.load(f)
+        # Send a POST request to upload the flow
+        response = requests.post(upload_url, json=flow_data)
+        response.raise_for_status()  # Check for HTTP errors
 
-        # Extract and return the flow_id
-        flow_id = flow_data.get('id', None)
-        if flow_id:
-            print(f"Flow ID: {flow_id}")
+        # Get the flow ID from the response
+        r_flow_id = response.json().get('id')
+
+        if r_flow_id:
+            print(f"Flow ID: {r_flow_id}")
         else:
-            print("Flow ID not found in the JSON file.")
-        return flow_id
+            print("Flow ID not found in the response")
 
-    except FileNotFoundError:
-        print(f"Error: The file {json_file_path} was not found.")
+        return r_flow_id
+    except requests.exceptions.RequestException as e:
+        print(f"Error during flow upload: {e}")
         return None
-    except json.JSONDecodeError:
-        print("Error: Could not decode the JSON file.")
-        return None
+
+# Function to get flow_id from the JSON file
+# def get_flow_id(json_file_path):
+#     try:
+#         # Open and read the JSON file
+#         with open(json_file_path, 'r') as f:
+#             flow_data = json.load(f)
+#
+#         # Extract and return the flow_id
+#         flow_id = flow_data.get('id', None)
+#         if flow_id:
+#             print(f"Flow ID: {flow_id}")
+#         else:
+#             print("Flow ID not found in the JSON file.")
+#         return flow_id
+#
+#     except FileNotFoundError:
+#         print(f"Error: The file {json_file_path} was not found.")
+#         return None
+#     except json.JSONDecodeError:
+#         print("Error: Could not decode the JSON file.")
+#         return None
 
 # Function to inject the flow_id as a global JavaScript variable and create a temporary HTML file
 def inject_flow_id_to_html(html_file_path, flow_id):
