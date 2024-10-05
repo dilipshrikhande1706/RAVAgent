@@ -16,7 +16,7 @@ time.sleep(10)  # Adjust this depending on how long Langflow takes to start
 # Step 3: Now you can send requests to the Langflow backend
 # For example, you might want to check if it's running:
 try:
-    response = requests.get('http://127.0.0.1:7880/health')  # Assuming this is the health check endpoint
+    response = requests.get('http://127.0.0.1:7860/health')  # Assuming this is the health check endpoint
     if response.status_code == 200:
         print("Langflow is running!")
     else:
@@ -27,7 +27,7 @@ except requests.exceptions.RequestException as e:
 # Optional: Add your JSON manipulation or other requests here
 
 # Function to upload the flow JSON to Langflow and run it
-def get_flow_id(i_json_file_path, langflow_host="http://127.0.0.1:7880"):
+def get_flow_id(i_json_file_path, langflow_host="http://127.0.0.1:7860"):
     # Read the JSON file content
     with open(i_json_file_path, 'r') as f:
         flow_data = json.load(f)
