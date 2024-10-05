@@ -36,6 +36,9 @@ Ollama is required to run the LLaMA and nomic-embed-text models locally.
     ollama pull llama3
     ```
 
+    ```bash
+    ollama pull llava:latest
+    ```
 - **Download Nomic-Embed-Text**:
     ```bash
     ollama pull nomic-embed-text
