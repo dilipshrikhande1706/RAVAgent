@@ -110,22 +110,20 @@ def get_flow_id(i_json_file_path, langflow_host="http://127.0.0.1:7860"):
 #         return None
 
 # Function to inject the flow_id as a global JavaScript variable and create a temporary HTML file
-def inject_flow_id_to_html(html_file_path, flow_id):
+def inject_flow_id_to_html(html_file_path, new_flow_id):
     try:
         # Read the original HTML file content
         with open(html_file_path, 'r') as f:
             html_content = f.read()
 
-        # Regular expression to find the window.flowId variable and update its value
-        updated_content = re.sub(
-            r'(window\.flowId\s*=\s*["\'])(.*?)(["\'];)',
-            r'\1{}\3'.format(flow_id),
-            html_content
-        )
+        pattern = r'(window\.flowId\s*=\s*")([^"]*)(";\s*</script>)'
+
+        # Replace the flow ID with the new value
+        updated_html_content = re.sub(pattern, r'\1{}\3'.format(new_flow_id), html_content)
 
         # Save the modified HTML content to a temporary file
         with open(html_file_path, 'w') as f:
-            f.write(updated_content)
+            f.write(updated_html_content)
 
         # print(f"Temporary HTML file created at {temp_html_file}")
         return html_file_path
