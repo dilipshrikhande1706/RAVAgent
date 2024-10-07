@@ -116,10 +116,11 @@ def inject_flow_id_to_html(html_file_path, new_flow_id):
         with open(html_file_path, 'r') as f:
             html_content = f.read()
 
-        pattern = r'(window\.flowId\s*=\s*")([^"]*)(";\s*</script>)'
+            # Regular expression to find window.flowId assignment
+            pattern = r'(window\.flowId\s*=\s*")[^"]*(";)'
 
-        # Replace the flow ID with the new value
-        updated_html_content = re.sub(pattern, r'\1{}\3'.format(new_flow_id), html_content)
+            # Replace the old flow ID with the new flow ID
+            updated_html_content = re.sub(pattern, r'\1{}\2'.format(new_flow_id), html_content)
 
         # Save the modified HTML content to a temporary file
         with open(html_file_path, 'w') as f:
