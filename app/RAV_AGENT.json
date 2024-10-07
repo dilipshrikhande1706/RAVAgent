@@ -2878,7 +2878,7 @@
                             "_type": "Component",
                             "path": {
                                 "trace_as_metadata": true,
-                                "file_path": "./SECO_716 200_d_2019_web.pdf",
+                                "file_path": "./SECO_716_200_d_2019_web.pdf",
                                 "fileTypes": [
                                     "txt",
                                     "md",
@@ -2904,7 +2904,7 @@
                                 "placeholder": "",
                                 "show": true,
                                 "name": "path",
-                                "value": "SECO_716 200_d_2019_web (2).pdf",
+                        "value":"SECO_716_200_d_2019_web.pdf",
                                 "display_name": "Path",
                                 "advanced": false,
                                 "dynamic": false,
@@ -2983,7 +2983,7 @@
                     },
                     "id": "File-qIUO3"
                 },
-                "selected": true,
+            "selected":true,
                 "width": 384,
                 "height": 302,
                 "positionAbsolute": {

@@ -1,3 +1,4 @@
+from dotenv import load_dotenv
 import subprocess
 import time
 import webbrowser
@@ -6,6 +7,39 @@ import json
 
 import requests
 import json
+import shutil
+import os
+import glob
+import re
+
+# shutil.copy('resources/SECO_716_200_d_2019_web.pdf', '~/Library/Caches/langflow/SECO_716_200_d_2019_web.pdf')
+
+# Source folder containing PDF files
+src_folder = 'resources'
+
+# Destination folder
+dst_folder = os.path.expanduser('~/Library/Caches/langflow')
+
+# Ensure the destination folder exists
+os.makedirs(dst_folder, exist_ok=True)
+
+# Find all PDF files in the source folder
+pdf_files = glob.glob(os.path.join(src_folder, '*.pdf'))
+
+# Loop through each PDF file and copy it to the destination folder
+for pdf_file in pdf_files:
+    # Get the destination path for the file
+    dst_file = os.path.join(dst_folder, os.path.basename(pdf_file))
+
+    # Copy the PDF file
+    shutil.copy(pdf_file, dst_file)
+    print(f"Copied: {pdf_file} to {dst_file}")
+
+files = os.listdir(dst_folder)
+
+# Print all the files
+# for file in files:
+#     print(file)
 
 # Step 1: Run Langflow in the background
 langflow_process = subprocess.Popen(['langflow', 'run', '--backend-only'])
@@ -24,10 +58,63 @@ try:
 except requests.exceptions.RequestException as e:
     print(f"Error connecting to Langflow: {e}")
 
-# Optional: Add your JSON manipulation or other requests here
+
+# Function to check if a flow exists by its ID
+def get_existing_flow_id(langflow_host="http://127.0.0.1:7860"):
+    # Assuming Langflow has an endpoint like `/api/v1/flows` to get all existing flows
+    get_flows_url = f"{langflow_host}/api/v1/flows"
+
+    try:
+        # Send a GET request to fetch existing flows
+        response = requests.get(get_flows_url)
+        response.raise_for_status()  # Check for HTTP errors
+
+        # Extract flow information from the response
+        flows = response.json()
+
+        if flows:
+            # Assuming each flow has an 'id' field
+            existing_flow_id = flows[0].get('id')  # Use the first flow ID as an example
+            print(f"Existing flow ID: {existing_flow_id}")
+            return existing_flow_id
+        else:
+            print("No existing flows found.")
+            return None
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching existing flow: {e}")
+        return None
+
+
+# Function to delete an existing flow by its ID
+def delete_flow(langflow_host="http://127.0.0.1:7860", flow_id=None):
+    if not flow_id:
+        print("No flow ID provided, skipping delete.")
+        return False
+
+    delete_url = f"{langflow_host}/api/v1/flows/{flow_id}"
+
+    try:
+        # Send a DELETE request to remove the existing flow
+        response = requests.delete(delete_url)
+        response.raise_for_status()  # Check for HTTP errors
+
+        print(f"Flow {flow_id} deleted successfully.")
+        return True
+    except requests.exceptions.RequestException as e:
+        print(f"Error deleting flow {flow_id}: {e}")
+        return False
 
 # Function to upload the flow JSON to Langflow and run it
 def get_flow_id(i_json_file_path, langflow_host="http://127.0.0.1:7860"):
+    # Check if there is an existing flow and delete it
+    existing_flow_id = get_existing_flow_id(langflow_host)
+    if existing_flow_id:
+        # Delete the existing flow before creating a new one
+        if not delete_flow(langflow_host, existing_flow_id):
+            print("Failed to delete existing flow. Exiting...")
+            return None
+
     # Read the JSON file content
     with open(i_json_file_path, 'r') as f:
         flow_data = json.load(f)
@@ -76,26 +163,20 @@ def get_flow_id(i_json_file_path, langflow_host="http://127.0.0.1:7860"):
 #         return None
 
 # Function to inject the flow_id as a global JavaScript variable and create a temporary HTML file
-def inject_flow_id_to_html(html_file_path, flow_id):
+def inject_flow_id_to_html(html_file_template, html_file_path, new_flow_id):
     try:
         # Read the original HTML file content
-        with open(html_file_path, 'r') as f:
+        with open(html_file_template, 'r') as f:
             html_content = f.read()
 
-        # Inject flow_id as a global JavaScript variable
-        injected_script = f'<script>window.flowId = "{flow_id}";</script>'
-        modified_html_content = html_content.replace(
-            '<script src="https://cdn.jsdelivr.net/gh/logspace-ai/langflow-embedded-chat@v1.0.6/dist/build/static/js/bundle.min.js"></script>',
-            f'<script src="https://cdn.jsdelivr.net/gh/logspace-ai/langflow-embedded-chat@v1.0.6/dist/build/static/js/bundle.min.js"></script>{injected_script}'
-        )
+            updated_html_content = html_content.replace('FLOW_ID', new_flow_id)
 
         # Save the modified HTML content to a temporary file
-        temp_html_file = html_file_path.with_name('chat_widget_temp.html')
-        with open(temp_html_file, 'w') as f:
-            f.write(modified_html_content)
+        with open(html_file_path, 'w') as f:
+            f.write(updated_html_content)
 
-        print(f"Temporary HTML file created at {temp_html_file}")
-        return temp_html_file
+        # print(f"Temporary HTML file created at {temp_html_file}")
+        return html_file_path
 
     except FileNotFoundError:
         print(f"Error: The file {html_file_path} was not found.")
@@ -112,8 +193,10 @@ flow_id = get_flow_id(json_file_path)
 if flow_id:
     # Step 4: Inject the flow_id into the HTML file
     current_folder = Path().cwd()
+    html_file_path_template = current_folder / 'app' / 'chat_widget_template.html'
     html_file_path = current_folder / 'app' / 'chat_widget.html'
-    temp_html_file = inject_flow_id_to_html(html_file_path, flow_id)
+
+    temp_html_file = inject_flow_id_to_html(html_file_path_template, html_file_path, flow_id)
 
     if temp_html_file:
         # Step 5: Open the updated HTML file in the browser
