@@ -1,3 +1,4 @@
+from dotenv import load_dotenv
 import subprocess
 import time
 import webbrowser
@@ -6,9 +7,24 @@ import json
 
 import requests
 import json
+import os
 
-# Step 1: Run Langflow in the background
-langflow_process = subprocess.Popen(['langflow', 'run', '--backend-only'])
+
+# Load the .env file
+load_dotenv()
+
+# Retrieve the cache directory from the .env file
+cache_dir = os.getenv('LANGFLOW_CACHE_DIR')
+
+# Create an environment dictionary and add the cache directory
+env1 = os.environ.copy()
+env1['LANGFLOW_CACHE_DIR'] = cache_dir
+
+# Start Langflow process with the environment variables from the .env file
+langflow_process = subprocess.Popen(
+    ['langflow', 'run', '--backend-only'],
+    env=env1
+)
 
 # Step 2: Wait for the Langflow backend to start (adjust time as needed)
 time.sleep(10)  # Adjust this depending on how long Langflow takes to start
@@ -90,7 +106,7 @@ def inject_flow_id_to_html(html_file_path, flow_id):
         )
 
         # Save the modified HTML content to a temporary file
-        temp_html_file = html_file_path.with_name('chat_widget_temp.html')
+        temp_html_file = html_file_path.with_name('chat_widget.html')
         with open(temp_html_file, 'w') as f:
             f.write(modified_html_content)
 
