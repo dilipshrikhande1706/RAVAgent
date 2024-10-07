@@ -58,10 +58,63 @@ try:
 except requests.exceptions.RequestException as e:
     print(f"Error connecting to Langflow: {e}")
 
-# Optional: Add your JSON manipulation or other requests here
+
+# Function to check if a flow exists by its ID
+def get_existing_flow_id(langflow_host="http://127.0.0.1:7860"):
+    # Assuming Langflow has an endpoint like `/api/v1/flows` to get all existing flows
+    get_flows_url = f"{langflow_host}/api/v1/flows"
+
+    try:
+        # Send a GET request to fetch existing flows
+        response = requests.get(get_flows_url)
+        response.raise_for_status()  # Check for HTTP errors
+
+        # Extract flow information from the response
+        flows = response.json()
+
+        if flows:
+            # Assuming each flow has an 'id' field
+            existing_flow_id = flows[0].get('id')  # Use the first flow ID as an example
+            print(f"Existing flow ID: {existing_flow_id}")
+            return existing_flow_id
+        else:
+            print("No existing flows found.")
+            return None
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching existing flow: {e}")
+        return None
+
+
+# Function to delete an existing flow by its ID
+def delete_flow(langflow_host="http://127.0.0.1:7860", flow_id=None):
+    if not flow_id:
+        print("No flow ID provided, skipping delete.")
+        return False
+
+    delete_url = f"{langflow_host}/api/v1/flows/{flow_id}"
+
+    try:
+        # Send a DELETE request to remove the existing flow
+        response = requests.delete(delete_url)
+        response.raise_for_status()  # Check for HTTP errors
+
+        print(f"Flow {flow_id} deleted successfully.")
+        return True
+    except requests.exceptions.RequestException as e:
+        print(f"Error deleting flow {flow_id}: {e}")
+        return False
 
 # Function to upload the flow JSON to Langflow and run it
 def get_flow_id(i_json_file_path, langflow_host="http://127.0.0.1:7860"):
+    # Check if there is an existing flow and delete it
+    existing_flow_id = get_existing_flow_id(langflow_host)
+    if existing_flow_id:
+        # Delete the existing flow before creating a new one
+        if not delete_flow(langflow_host, existing_flow_id):
+            print("Failed to delete existing flow. Exiting...")
+            return None
+
     # Read the JSON file content
     with open(i_json_file_path, 'r') as f:
         flow_data = json.load(f)
@@ -110,17 +163,13 @@ def get_flow_id(i_json_file_path, langflow_host="http://127.0.0.1:7860"):
 #         return None
 
 # Function to inject the flow_id as a global JavaScript variable and create a temporary HTML file
-def inject_flow_id_to_html(html_file_path, new_flow_id):
+def inject_flow_id_to_html(html_file_template, html_file_path, new_flow_id):
     try:
         # Read the original HTML file content
-        with open(html_file_path, 'r') as f:
+        with open(html_file_template, 'r') as f:
             html_content = f.read()
 
-            # Regular expression to find window.flowId assignment
-            pattern = r'(window\.flowId\s*=\s*")[^"]*(";)'
-
-            # Replace the old flow ID with the new flow ID
-            updated_html_content = re.sub(pattern, r'\1{}\2'.format(new_flow_id), html_content)
+            updated_html_content = html_content.replace('FLOW_ID', new_flow_id)
 
         # Save the modified HTML content to a temporary file
         with open(html_file_path, 'w') as f:
@@ -144,8 +193,10 @@ flow_id = get_flow_id(json_file_path)
 if flow_id:
     # Step 4: Inject the flow_id into the HTML file
     current_folder = Path().cwd()
+    html_file_path_template = current_folder / 'app' / 'chat_widget_template.html'
     html_file_path = current_folder / 'app' / 'chat_widget.html'
-    temp_html_file = inject_flow_id_to_html(html_file_path, flow_id)
+
+    temp_html_file = inject_flow_id_to_html(html_file_path_template, html_file_path, flow_id)
 
     if temp_html_file:
         # Step 5: Open the updated HTML file in the browser
