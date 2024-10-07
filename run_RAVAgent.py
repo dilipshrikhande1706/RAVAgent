@@ -7,24 +7,42 @@ import json
 
 import requests
 import json
+import shutil
 import os
+import glob
+import re
 
+# shutil.copy('resources/SECO_716_200_d_2019_web.pdf', '~/Library/Caches/langflow/SECO_716_200_d_2019_web.pdf')
 
-# Load the .env file
-load_dotenv()
+# Source folder containing PDF files
+src_folder = 'resources'
 
-# Retrieve the cache directory from the .env file
-cache_dir = os.getenv('LANGFLOW_CACHE_DIR')
+# Destination folder
+dst_folder = os.path.expanduser('~/Library/Caches/langflow')
 
-# Create an environment dictionary and add the cache directory
-env1 = os.environ.copy()
-env1['LANGFLOW_CACHE_DIR'] = cache_dir
+# Ensure the destination folder exists
+os.makedirs(dst_folder, exist_ok=True)
 
-# Start Langflow process with the environment variables from the .env file
-langflow_process = subprocess.Popen(
-    ['langflow', 'run', '--backend-only'],
-    env=env1
-)
+# Find all PDF files in the source folder
+pdf_files = glob.glob(os.path.join(src_folder, '*.pdf'))
+
+# Loop through each PDF file and copy it to the destination folder
+for pdf_file in pdf_files:
+    # Get the destination path for the file
+    dst_file = os.path.join(dst_folder, os.path.basename(pdf_file))
+
+    # Copy the PDF file
+    shutil.copy(pdf_file, dst_file)
+    print(f"Copied: {pdf_file} to {dst_file}")
+
+files = os.listdir(dst_folder)
+
+# Print all the files
+# for file in files:
+#     print(file)
+
+# Step 1: Run Langflow in the background
+langflow_process = subprocess.Popen(['langflow', 'run', '--backend-only'])
 
 # Step 2: Wait for the Langflow backend to start (adjust time as needed)
 time.sleep(10)  # Adjust this depending on how long Langflow takes to start
@@ -98,20 +116,19 @@ def inject_flow_id_to_html(html_file_path, flow_id):
         with open(html_file_path, 'r') as f:
             html_content = f.read()
 
-        # Inject flow_id as a global JavaScript variable
-        injected_script = f'<script>window.flowId = "{flow_id}";</script>'
-        modified_html_content = html_content.replace(
-            '<script src="https://cdn.jsdelivr.net/gh/logspace-ai/langflow-embedded-chat@v1.0.6/dist/build/static/js/bundle.min.js"></script>',
-            f'<script src="https://cdn.jsdelivr.net/gh/logspace-ai/langflow-embedded-chat@v1.0.6/dist/build/static/js/bundle.min.js"></script>{injected_script}'
+        # Regular expression to find the window.flowId variable and update its value
+        updated_content = re.sub(
+            r'(window\.flowId\s*=\s*["\'])(.*?)(["\'];)',
+            r'\1{}\3'.format(flow_id),
+            html_content
         )
 
         # Save the modified HTML content to a temporary file
-        temp_html_file = html_file_path.with_name('chat_widget.html')
-        with open(temp_html_file, 'w') as f:
-            f.write(modified_html_content)
+        with open(html_file_path, 'w') as f:
+            f.write(updated_content)
 
-        print(f"Temporary HTML file created at {temp_html_file}")
-        return temp_html_file
+        # print(f"Temporary HTML file created at {temp_html_file}")
+        return html_file_path
 
     except FileNotFoundError:
         print(f"Error: The file {html_file_path} was not found.")
