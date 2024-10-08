@@ -23,3 +23,5 @@ while ! is_ollama_running; do
 done
 
 echo "Ollama is running with PID: $OLLAMA_PID"
+
+python3 run_RAVAgent.py
