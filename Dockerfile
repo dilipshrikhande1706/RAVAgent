@@ -1,20 +1,25 @@
-# Use a Python 3.10 image as the base
+# Use an official Python runtime as a parent image
 FROM python:3.10-slim
 
-# Set the working directory inside the container
-WORKDIR /RAVAgent
+# Set the working directory
+WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . /RAVAgent
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    libpq-dev build-essential curl && \
+    rm -rf /var/lib/apt/lists/*
 
-# Install any needed packages specified in requirements.txt
+# Copy the current directory contents into the container
+COPY . .
+
+# Install any needed Python packages
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Make port 8000 available to the world outside this container
-# EXPOSE 8000
+# Pull and install the llava:latest model (if needed)
+RUN ollama pull llava:latest
 
-# Define environment variables for production (optional)
-# ENV FLASK_ENV=production
+# Expose the port Fly.io will use
+EXPOSE 8080
 
-# Run the application using Gunicorn
-CMD ["python3", "run_RAVAgent.py"]
+# Command to run your RAVAgent Langflow app
+CMD ["python", "run_RAVAgent.py"]
