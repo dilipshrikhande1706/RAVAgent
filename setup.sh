@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Start ollama in the background
-ollama start &
+ollama start > /dev/null 2>&1 &
 
 # PID of the last background process (ollama start)
 OLLAMA_PID=$!
@@ -25,3 +25,5 @@ done
 echo "Ollama is running with PID: $OLLAMA_PID"
 
 python3 run_RAVAgent.py
+
+exit
