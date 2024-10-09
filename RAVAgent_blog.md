@@ -52,7 +52,7 @@ While the current version of the RAVAgent works well on Mac M1 machines, there a
 
 4. **Deployment on a Hosting Platform**: To make the agent accessible to a wider audience, I am exploring deployment options like Fly.io, Coolify, or Google Cloud Platform (GCP). I already have a $50 free credit on Fly.io that I plan to leverage for this purpose.
 
-![RAVAgent Architecture](sandbox:/mnt/data/A_detailed_architecture_diagram_of_an_AI_chatbot_p.png)
+![RAVAgent Architecture](./RAVAgent_Architecture.jpg)
 
 ## Closing Thoughts
 
