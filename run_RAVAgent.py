@@ -42,7 +42,7 @@ files = os.listdir(dst_folder)
 #     print(file)
 
 # Step 1: Run Langflow in the background
-langflow_process = subprocess.Popen(['langflow', 'run', '--backend-only'])
+langflow_process = subprocess.Popen(['langflow', 'run', '--backend-only', '--host', '0.0.0.0', '--port', '8080'])
 
 # Step 2: Wait for the Langflow backend to start (adjust time as needed)
 time.sleep(10)  # Adjust this depending on how long Langflow takes to start
@@ -50,7 +50,7 @@ time.sleep(10)  # Adjust this depending on how long Langflow takes to start
 # Step 3: Now you can send requests to the Langflow backend
 # For example, you might want to check if it's running:
 try:
-    response = requests.get('http://127.0.0.1:7860/health')  # Assuming this is the health check endpoint
+    response = requests.get('http://127.0.0.1:8080/health') # Assuming this is the health check endpoint
     if response.status_code == 200:
         print("Langflow is running!")
     else:

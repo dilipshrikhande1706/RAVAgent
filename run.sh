@@ -1,22 +1,21 @@
 #!/bin/bash
 
-# Start ollama in the background
+# Start Ollama in the background
 ollama start > /dev/null 2>&1 &
 
 # PID of the last background process (ollama start)
 OLLAMA_PID=$!
 
-# Function to check if ollama is running (customize this to your needs)
+# Function to check if Ollama is running by sending a health check request
 is_ollama_running() {
-    # Check if the ollama process is running by its PID
-    if ps -p $OLLAMA_PID > /dev/null; then
-        return 0 # true, ollama is running
+    if curl -s http://localhost:11434/health | grep -q "healthy"; then
+        return 0 # true, Ollama is running
     else
-        return 1 # false, ollama is not running
+        return 1 # false, Ollama is not running
     fi
 }
 
-# Wait until ollama is running
+# Wait until Ollama is running
 while ! is_ollama_running; do
     echo "Waiting for Ollama to start..."
     sleep 1
@@ -24,6 +23,7 @@ done
 
 echo "Ollama is running with PID: $OLLAMA_PID"
 
+# Run your Python script
 python3 run_RAVAgent.py
 
 exit
