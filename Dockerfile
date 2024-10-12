@@ -16,7 +16,7 @@ COPY . .
 RUN pip install --upgrade pip
 
 # Install Ollama and check installation
-RUN pip install --no-cache-dir ollama
+#RUN pip install --no-cache-dir ollama
 
 # Add Ollama to the PATH
 ENV PATH="/root/.local/bin:$PATH"
@@ -32,6 +32,9 @@ ENV OLLAMA_HOST=http://host.docker.internal:11434
 
 # Expose the port Fly.io will use
 EXPOSE 8080
+
+# Make sure the run.sh script is executable
+RUN chmod +x run.sh
 
 # Run the Langflow app
 CMD ["./run.sh"]
