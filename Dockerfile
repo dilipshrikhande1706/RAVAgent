@@ -4,7 +4,7 @@ FROM --platform=linux/arm64 python:3.10-slim
 # Set the working directory
 WORKDIR /app
 
-# Install system dependencies including procps for ps command
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     libpq-dev build-essential curl procps && \
     rm -rf /var/lib/apt/lists/*
@@ -15,8 +15,14 @@ COPY . .
 # Upgrade pip
 RUN pip install --upgrade pip
 
-# Install Ollama
+# Install Ollama and check installation
 RUN pip install --no-cache-dir ollama
+
+# Add Ollama to the PATH
+ENV PATH="/root/.local/bin:$PATH"
+
+# Check installed Python packages (for debugging)
+RUN pip list
 
 # Install any needed Python packages
 RUN pip install --no-cache-dir -r requirements.txt

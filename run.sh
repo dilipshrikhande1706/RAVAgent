@@ -3,26 +3,16 @@
 # Start Ollama in the background and log output to a file
 ollama start > ollama.log 2>&1 &
 
-# PID of the last background process (Ollama)
-OLLAMA_PID=$!
+# Wait for Ollama to initialize
+sleep 5
 
-# Function to check if Ollama is running
-is_ollama_running() {
-    # Check if the Ollama process is running by its PID
-    if ps -p $OLLAMA_PID > /dev/null; then
-        return 0 # Ollama is running
-    else
-        return 1 # Ollama is not running
-    fi
-}
+# Check if Ollama is running
+if ! curl -s -o /dev/null -w "%{http_code}" http://localhost:11434 | grep -q "200"; then
+    echo "Failed to start Ollama."
+    exit 1
+fi
 
-# Wait until Ollama is running
-while ! is_ollama_running; do
-    echo "Waiting for Ollama to start..."
-    sleep 1
-done
-
-echo "Ollama is running with PID: $OLLAMA_PID"
+echo "Ollama is running."
 
 # Start Langflow in the background
 langflow > /dev/null 2>&1 &
