@@ -206,4 +206,4 @@ flow_id = get_flow_id(json_file_path)
 #     print("Cannot launch the HTML file because the flow_id was not found.")
 
 # Optional: You can handle stopping the Langflow process if needed
-#langflow_process.terminate()  # Uncomment to stop the Langflow process when done
+langflow_process.terminate()  # Uncomment to stop the Langflow process when done

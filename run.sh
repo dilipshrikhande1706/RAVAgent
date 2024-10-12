@@ -26,4 +26,5 @@
 
 python3 run_RAVAgent.py
 
-exit
+# Keep the container alive (blocking process)
+tail -f /dev/null
