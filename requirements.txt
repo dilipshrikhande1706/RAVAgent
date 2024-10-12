@@ -1,6 +1,6 @@
-langflow==1.0.10
-llama-cpp-python==0.1.48
-ollama==0.3.0
-pydantic==1.9.2
-fastapi==0.99.0
-uvicorn==0.22.0
+langflow
+llama-cpp-python
+pydantic
+fastapi
+uvicorn
+click

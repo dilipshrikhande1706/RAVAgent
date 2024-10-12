@@ -190,20 +190,20 @@ def inject_flow_id_to_html(html_file_template, html_file_path, new_flow_id):
 json_file_path = Path().cwd() / 'app' / 'RAV_AGENT.json'
 flow_id = get_flow_id(json_file_path)
 
-if flow_id:
-    # Step 4: Inject the flow_id into the HTML file
-    current_folder = Path().cwd()
-    html_file_path_template = current_folder / 'app' / 'chat_widget_template.html'
-    html_file_path = current_folder / 'app' / 'chat_widget.html'
-
-    temp_html_file = inject_flow_id_to_html(html_file_path_template, html_file_path, flow_id)
-
-    if temp_html_file:
-        # Step 5: Open the updated HTML file in the browser
-        html_file_url = f'file://{temp_html_file.resolve()}'
-        webbrowser.open(html_file_url)
-else:
-    print("Cannot launch the HTML file because the flow_id was not found.")
+# if flow_id:
+#     # Step 4: Inject the flow_id into the HTML file
+#     current_folder = Path().cwd()
+#     html_file_path_template = current_folder / 'app' / 'chat_widget_template.html'
+#     html_file_path = current_folder / 'app' / 'chat_widget.html'
+#
+#     temp_html_file = inject_flow_id_to_html(html_file_path_template, html_file_path, flow_id)
+#
+#     if temp_html_file:
+#         # Step 5: Open the updated HTML file in the browser
+#         html_file_url = f'file://{temp_html_file.resolve()}'
+#    #     webbrowser.open(html_file_url)
+# else:
+#     print("Cannot launch the HTML file because the flow_id was not found.")
 
 # Optional: You can handle stopping the Langflow process if needed
-langflow_process.terminate()  # Uncomment to stop the Langflow process when done
+#langflow_process.terminate()  # Uncomment to stop the Langflow process when done
