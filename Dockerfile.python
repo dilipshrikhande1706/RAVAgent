@@ -1,0 +1,25 @@
+# Dockerfile.python
+FROM python:3.10-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    libpq-dev build-essential curl jq procps && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy requirements file and install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of your application code
+COPY app/. .
+# Copy the chat_widget.html file into the container
+#COPY app/chat_widget.html ./ # Ensure this points to the right file
+
+# Make sure run.sh script is executable
+RUN chmod +x run.sh
+
+# Default command
+CMD ["./run.sh"]

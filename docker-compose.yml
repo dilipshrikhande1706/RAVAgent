@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  ravagent-ollama:
+    build:
+      context: .
+      dockerfile: Dockerfile.ollama
+
+  ravagent-python-test:
+    build:
+      context: .
+      dockerfile: Dockerfile.python
+    depends_on:
+      - ravagent-ollama
