@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Start Ollama in the background and log output to a file
-ollama start > ollama.log 2>&1 &
+#ollama start > ollama.log 2>&1 &
 
 # Wait for Ollama to initialize (increase the sleep duration)
 sleep 20
