@@ -4,7 +4,7 @@
 ollama start > ollama.log 2>&1 &
 
 # Wait for Ollama to initialize
-sleep 5
+sleep 10
 
 # Check if Ollama is running
 if ! curl -s -o /dev/null -w "%{http_code}" http://localhost:11434 | grep -q "200"; then

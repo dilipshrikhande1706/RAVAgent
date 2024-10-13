@@ -4,6 +4,9 @@ FROM --platform=linux/arm64 python:3.10-slim
 # Set the working directory
 WORKDIR /app
 
+# Create the necessary directory for user installations and set permissions
+RUN mkdir -p /root/.local/bin && chmod -R 777 /root/.local
+
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     libpq-dev build-essential curl procps && \
@@ -15,17 +18,14 @@ COPY . .
 # Upgrade pip
 RUN pip install --upgrade pip
 
-# Install Ollama and check installation
-#RUN pip install --no-cache-dir ollama
-
-# Add Ollama to the PATH
+# Add the local bin to the PATH
 ENV PATH="/root/.local/bin:$PATH"
 
-# Check installed Python packages (for debugging)
-RUN pip list
-
-# Install any needed Python packages
+# Install any needed Python packages from requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Check installed Python packages (for debugging, can be commented out later)
+RUN pip list
 
 # Set Ollama host for local Mac access
 ENV OLLAMA_HOST=http://host.docker.internal:11434
