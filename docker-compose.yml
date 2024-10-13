@@ -4,6 +4,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.ollama
+    ports:
+      - "11434:11434"  # Ensure the port matches what Ollama expects
+    environment:
+      - OLLAMA_HOST=http://0.0.0.0:11434  # Set host variable for accessibility
 
   ravagent-python-test:
     build:
@@ -11,3 +15,7 @@ services:
       dockerfile: Dockerfile.python
     depends_on:
       - ravagent-ollama
+    ports:
+      - "5000:5000"  # Ensure this matches your app's listening port
+    environment:
+      - PORT=5000  # Make sure your app uses this variable
