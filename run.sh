@@ -1,10 +1,11 @@
 #!/bin/bash
 
 # Start Ollama in the background and log output to a file
+# Uncomment the following line if needed
 # ollama start > ollama.log 2>&1 &
 
-# Wait for Ollama to initialize (increase the sleep duration)
-sleep 2000
+# Wait for Ollama to initialize
+sleep 20
 
 # Check if Ollama is running
 if ! curl -s -o /dev/null -w "%{http_code}" http://localhost:11434 | grep -q "200"; then
@@ -14,8 +15,8 @@ fi
 
 echo "Ollama is running."
 
-# Start Langflow and allow its output to be printed in the terminal
-langflow -p 7860:7860| tee langflow.log &  # Use tee to also save to a log file
+# Start Langflow in the foreground and allow its output to be printed in the terminal
+langflow -p 7860 | tee langflow.log
 
 # Wait for Langflow to start
 sleep 10
@@ -37,11 +38,13 @@ if [ -z "$flow_id" ]; then
     exit 1
 fi
 
-sed -i '' "s/FLOW_ID_PLACEHOLDER/$flow_id/g" chat_widget.html
+# Update the HTML file with the retrieved flow_id
+sed -i '' "s/FLOW_ID_PLACEHOLDER/$flow_id/g" chat_widget.html  # Adjust based on your system
 
 # Open the chat widget HTML file in the default browser
-# Remove or comment this line:
+# Comment out if running in a headless environment or do not want to open automatically
 # open chat_widget.html
+
 echo "Open the chat widget at: http://localhost:7860/chat_widget.html"  # Modify as needed
 
 # Keep the container running

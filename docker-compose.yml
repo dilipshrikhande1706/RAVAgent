@@ -9,16 +9,14 @@ services:
     volumes:
       - ollama_data:/root/.ollama  # Persist data in the Ollama container
 
-  ravagent-python-test:
+  langflow:
     build:
       context: .
-      dockerfile: Dockerfile.python
+      dockerfile: Dockerfile.langflow  # Ensure this points to your Langflow Dockerfile
+    ports:
+      - "7860:7860"  # Map port 7860 to host
     depends_on:
       - ravagent-ollama
-    ports:
-      - "5001:5000"  # Ensure this matches your app's listening port
-    environment:
-      - PORT=5000  # Make sure your app uses this variable
 
 volumes:
   ollama_data:  # Define the volume to persist data

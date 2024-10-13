@@ -1,4 +1,4 @@
-# Dockerfile.python
+# Dockerfile.langflow
 # Use an official Python runtime as a parent image
 FROM --platform=linux/arm64 python:3.10-slim
 
@@ -18,10 +18,10 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of your application code
-COPY app/. .
+COPY . .
 
 # Make sure run.sh script is executable
 RUN chmod +x ./run.sh
 
-# Default command to run your Python application
+# Default command to run your custom script
 CMD ["./run.sh"]
