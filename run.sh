@@ -4,10 +4,10 @@
 #ollama start > ollama.log 2>&1 &
 
 # Wait for Ollama to initialize (increase the sleep duration)
-sleep 20
+sleep 2000
 
 # Check if Ollama is running (use the service name instead of localhost)
-if ! curl -s -o /dev/null -w "%{http_code}" http://ollama:11434 | grep -q "200"; then
+if ! curl -s -o /dev/null -w "%{http_code}" http://localhost:11434 | grep -q "200"; then
     echo "Failed to start Ollama."
     exit 1
 fi
