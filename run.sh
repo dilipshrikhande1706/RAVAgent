@@ -15,7 +15,7 @@ fi
 echo "Ollama is running."
 
 # Start Langflow and allow its output to be printed in the terminal
-langflow | tee langflow.log &  # Use tee to also save to a log file
+langflow -p 7860:7860| tee langflow.log &  # Use tee to also save to a log file
 
 # Wait for Langflow to start
 sleep 10
