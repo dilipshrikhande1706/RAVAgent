@@ -1,13 +1,18 @@
-# Dockerfile.python
-FROM python:3.10-slim
+# Use an official Python runtime as a parent image
+FROM --platform=linux/arm64 python:3.10-slim
 
 # Set working directory
 WORKDIR /app
+
+# Copy the current directory contents into the container
+COPY . .
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     libpq-dev build-essential curl jq procps && \
     rm -rf /var/lib/apt/lists/*
+
+RUN python -m pip install --upgrade pip
 
 # Copy requirements file and install Python dependencies
 COPY requirements.txt .
@@ -19,7 +24,7 @@ COPY app/. .
 #COPY app/chat_widget.html ./ # Ensure this points to the right file
 
 # Make sure run.sh script is executable
-RUN chmod +x run.sh
+RUN chmod +x ./run.sh
 
 # Default command
 CMD ["./run.sh"]
