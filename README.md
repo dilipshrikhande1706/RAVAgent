@@ -7,4 +7,5 @@ RAVAgent is an AI-powered Retrieval-Augmented Generation (RAG) system designed t
 
 
 git clone -b new-dockerimage-branch https://github.com/dilipshrikhande1706/RAVAgent.git
+
 docker-compose up --build
