@@ -6,7 +6,7 @@
 
 # Wait for Ollama to initialize
 max_attempts=30  # Maximum number of attempts
-wait_time=2      # Wait time between attempts in seconds
+wait_time=5      # Wait time between attempts in seconds
 attempts=0
 
 echo "Waiting for Ollama to start..."

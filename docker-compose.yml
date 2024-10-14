@@ -5,11 +5,13 @@ services:
     ports:
       - "11434:11434"  # Map port 11434 on the host to port 11434 in the container
     environment:
-      - OLLAMA_HOST=http://0.0.0.0:11434  # Set host variable for accessibility
+      - OLLAMA_HOST=http://ravagent-ollama:11434  # Set host variable for accessibility
     volumes:
       - ollama_data:/root/.ollama  # Persist data in the Ollama container
     networks:
       - ravagent_network  # Use a custom network for internal communication
+    env_file:
+      - .env  # Load environment variables from .env file
 
   langflow:
     build:
@@ -21,6 +23,8 @@ services:
       - ravagent-ollama
     networks:
       - ravagent_network  # Use the same network for internal communication
+    env_file:
+      - .env  # Load environment variables from .env file
 
 volumes:
   ollama_data:  # Define the volume to persist data

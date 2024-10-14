@@ -37,6 +37,39 @@ for pdf_file in pdf_files:
 
 files = os.listdir(dst_folder)
 
+import os
+
+# Get the environment variable
+variable_name = "ASTRA_DB_COLLECTION"  # replace with your variable name
+value = os.getenv(variable_name)
+
+# Print the environment variable
+if value is not None:
+    print(f"{variable_name}: {value}")
+else:
+    print(f"{variable_name} is not set.")
+
+
+# Get the environment variable
+variable_name = "ASTRA_DB_API_ENDPOINT"  # replace with your variable name
+value = os.getenv(variable_name)
+
+# Print the environment variable
+if value is not None:
+    print(f"{variable_name}: {value}")
+else:
+    print(f"{variable_name} is not set.")
+
+# Get the environment variable
+variable_name = "ASTRA_DB_TOKEN"  # replace with your variable name
+value = os.getenv(variable_name)
+
+# Print the environment variable
+if value is not None:
+    print(f"{variable_name}: {value}")
+else:
+    print(f"{variable_name} is not set.")
+
 # Print all the files
 # for file in files:
 #     print(file)
