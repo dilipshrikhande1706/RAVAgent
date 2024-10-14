@@ -2,7 +2,7 @@
 FROM ollama/ollama:latest
 
 # Set Ollama host for local Mac access
-ENV OLLAMA_HOST=http://0.0.0.0:11434
+ENV OLLAMA_HOST=http://localhost:11434
 
 # Expose Ollama's port
 EXPOSE 11434

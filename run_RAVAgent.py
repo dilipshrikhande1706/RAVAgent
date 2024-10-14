@@ -18,7 +18,7 @@ import re
 src_folder = 'resources'
 
 # Destination folder
-dst_folder = os.path.expanduser('~/Library/Caches/langflow')
+dst_folder = os.path.expanduser('/root/.cache/langflow')
 
 # Ensure the destination folder exists
 os.makedirs(dst_folder, exist_ok=True)
