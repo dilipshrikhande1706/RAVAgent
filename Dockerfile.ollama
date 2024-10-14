@@ -11,7 +11,7 @@ EXPOSE 11434
 COPY --from=0 /usr/local/bin/ollama /usr/bin/ollama
 
 # Pull the nomic-embed-text model
-RUN ollama pull nomic-embed-text
+RUN ollama pull nomic-embed-text:latest
 
 # Start Ollama (if necessary, customize this command)
 CMD ["ollama", "serve"]
