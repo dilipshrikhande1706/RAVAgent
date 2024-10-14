@@ -56,30 +56,30 @@ wait_time=2           # Wait time between attempts in seconds
 
 python3 run_RAVAgent.py
 
-# Attempt to capture flow_id from Langflow
-echo "Attempting to retrieve flow_id from Langflow..."
-
-while true; do
-    flow_id=$(curl -s -X GET http://0.0.0.0:"$LANGFLOW_PORT"/api/v1/flows | jq -r '.[0].id')
-
-    # Check if flow_id is valid
-    if [ -n "$flow_id" ] && [ "$flow_id" != "null" ]; then
-        echo "Flow ID retrieved: $flow_id"
-        break  # Exit the loop if flow_id is valid
-    fi
-
-    # Increment the attempt counter
-    flow_attempts=$((flow_attempts + 1))
-
-    # Check if the maximum attempts have been reached
-    if [ "$flow_attempts" -ge "$max_flow_attempts" ]; then
-        echo "Failed to retrieve flow_id from Langflow after $flow_attempts attempts."
-        exit 1
-    fi
-
-    echo "Attempt $flow_attempts of $max_flow_attempts: flow_id is not valid. Retrying in $wait_time seconds..."
-    sleep $wait_time  # Wait before the next attempt
-done
+## Attempt to capture flow_id from Langflow
+#echo "Attempting to retrieve flow_id from Langflow..."
+#
+#while true; do
+#    flow_id=$(curl -s -X GET http://0.0.0.0:"$LANGFLOW_PORT"/api/v1/flows | jq -r '.[0].id')
+#
+#    # Check if flow_id is valid
+#    if [ -n "$flow_id" ] && [ "$flow_id" != "null" ]; then
+#        echo "Flow ID retrieved: $flow_id"
+#        break  # Exit the loop if flow_id is valid
+#    fi
+#
+#    # Increment the attempt counter
+#    flow_attempts=$((flow_attempts + 1))
+#
+#    # Check if the maximum attempts have been reached
+#    if [ "$flow_attempts" -ge "$max_flow_attempts" ]; then
+#        echo "Failed to retrieve flow_id from Langflow after $flow_attempts attempts."
+#        exit 1
+#    fi
+#
+#    echo "Attempt $flow_attempts of $max_flow_attempts: flow_id is not valid. Retrying in $wait_time seconds..."
+#    sleep $wait_time  # Wait before the next attempt
+#done
 
 # Update the HTML file with the retrieved flow_id
 sed -i '' "s/FLOW_ID_PLACEHOLDER/$flow_id/g" chat_widget.html  # Adjust the `-i ''` for your OS if needed
