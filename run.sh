@@ -24,14 +24,17 @@ done
 
 echo "Ollama is running."
 
+# Start Langflow using environment variable for the port
+LANGFLOW_PORT=7860
+
 # Start Langflow in the foreground and allow its output to be printed in the terminal
-langflow -p 7860 | tee langflow.log
+langflow run --port "$LANGFLOW_PORT" | tee langflow.log
 
 # Wait for Langflow to start
 sleep 10
 
 # Check if Langflow is running
-if ! curl -s -o /dev/null -w "%{http_code}" http://localhost:7860 | grep -q "200"; then
+if ! curl -s -o /dev/null -w "%{http_code}" http://localhost:"$LANGFLOW_PORT" | grep -q "200"; then
     echo "Failed to start Langflow."
     exit 1
 fi
@@ -39,7 +42,7 @@ fi
 echo "Langflow is running."
 
 # Capture flow_id from Langflow and insert it into the HTML file
-flow_id=$(curl -X GET http://localhost:7860/api/flows | jq -r '.[0].id')
+flow_id=$(curl -X GET http://localhost:"$LANGFLOW_PORT"/api/flows | jq -r '.[0].id')
 
 # Check if flow_id is valid
 if [ -z "$flow_id" ]; then
@@ -54,7 +57,7 @@ sed -i '' "s/FLOW_ID_PLACEHOLDER/$flow_id/g" chat_widget.html  # Adjust based on
 # Comment out if running in a headless environment or do not want to open automatically
 # open chat_widget.html
 
-echo "Open the chat widget at: http://localhost:7860/chat_widget.html"  # Modify as needed
+echo "Open the chat widget at: http://localhost:$LANGFLOW_PORT/chat_widget.html"  # Modify as needed
 
 # Keep the container running
 tail -f /dev/null
