@@ -28,13 +28,13 @@ echo "Ollama is running."
 LANGFLOW_PORT=7860
 
 # Start Langflow in the foreground and allow its output to be printed in the terminal
-langflow run --port "$LANGFLOW_PORT" | tee langflow.log
+langflow run --port "$LANGFLOW_PORT" "--backend-only"| tee langflow.log
 
 # Wait for Langflow to start
 sleep 10
 
 # Check if Langflow is running
-if ! curl -s -o /dev/null -w "%{http_code}" http://localhost:"$LANGFLOW_PORT" | grep -q "200"; then
+if ! curl -s -o /dev/null -w "%{http_code}" http://localhost:"$LANGFLOW_PORT"/health | grep -q "200"; then
     echo "Failed to start Langflow."
     exit 1
 fi
@@ -42,7 +42,7 @@ fi
 echo "Langflow is running."
 
 # Capture flow_id from Langflow and insert it into the HTML file
-flow_id=$(curl -X GET http://localhost:"$LANGFLOW_PORT"/api/flows | jq -r '.[0].id')
+flow_id=$(curl -X GET http://localhost:"$LANGFLOW_PORT"/api/v1/flows | jq -r '.[0].id')
 
 # Check if flow_id is valid
 if [ -z "$flow_id" ]; then
