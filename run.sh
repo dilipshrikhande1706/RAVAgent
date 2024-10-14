@@ -24,13 +24,14 @@ done
 
 echo "Ollama is running."
 
-# Check if the required model is already pulled
-if ! ollama list | grep -q "^nomic-embed-text$"; then
-    echo "nomic-embed-text model not found. Pulling the nomic-embed-text model..."
-    ollama pull nomic-embed-text
-else
-    echo "nomic-embed-text model is already pulled."
-fi
+# Verify Ollama's model list explicitly
+  echo "Checking for 'nomic-embed-text' in Ollama's model list..."
+  if ! ollama list | grep -q "^nomic-embed-text$"; then
+      echo "Model 'nomic-embed-text' not found. Pulling the model..."
+      ollama pull nomic-embed-text:latest
+  else
+      echo "'nomic-embed-text' model is available."
+  fi
 
 # Start Langflow using environment variable for the port
 LANGFLOW_PORT=7860
