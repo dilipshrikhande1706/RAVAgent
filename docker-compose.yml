@@ -8,6 +8,8 @@ services:
       - OLLAMA_HOST=http://0.0.0.0:11434  # Set host variable for accessibility
     volumes:
       - ollama_data:/root/.ollama  # Persist data in the Ollama container
+    networks:
+      - ravagent_network  # Use a custom network for internal communication
 
   langflow:
     build:
@@ -17,6 +19,12 @@ services:
       - "7860:7860"  # Map port 7860 to host
     depends_on:
       - ravagent-ollama
+    networks:
+      - ravagent_network  # Use the same network for internal communication
 
 volumes:
   ollama_data:  # Define the volume to persist data
+
+networks:
+  ravagent_network:
+    driver: bridge  # Define a custom network using bridge driver

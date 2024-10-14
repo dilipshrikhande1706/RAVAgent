@@ -5,13 +5,22 @@
 # ollama start > ollama.log 2>&1 &
 
 # Wait for Ollama to initialize
-sleep 20
+max_attempts=30  # Maximum number of attempts
+wait_time=2      # Wait time between attempts in seconds
+attempts=0
 
-# Check if Ollama is running
-if ! curl -s -o /dev/null -w "%{http_code}" http://localhost:11434 | grep -q "200"; then
-    echo "Failed to start Ollama."
-    exit 1
-fi
+echo "Waiting for Ollama to start..."
+
+# Loop to check if Ollama is running
+until curl -s -o /dev/null -w "%{http_code}" http://ravagent-ollama:11434 | grep -q "200"; do
+    attempts=$((attempts + 1))
+    if [ "$attempts" -ge "$max_attempts" ]; then
+        echo "Failed to start Ollama after $attempts attempts."
+        exit 1
+    fi
+    echo "Ollama is not yet running. Attempt $attempts of $max_attempts. Retrying in $wait_time seconds..."
+    sleep $wait_time
+done
 
 echo "Ollama is running."
 
