@@ -4,5 +4,8 @@ FROM ollama/ollama:latest
 # Expose Ollama's port
 EXPOSE 11434
 
+# Pull the nomic-embed-text model
+RUN ollama pull nomic-embed-text
+
 # Start Ollama (if necessary, customize this command)
 CMD ["ollama", "serve"]
