@@ -54,6 +54,8 @@ max_flow_attempts=10  # Maximum number of attempts to retrieve flow_id
 flow_attempts=0
 wait_time=2           # Wait time between attempts in seconds
 
+python3 run_RAVAgent.py
+
 # Attempt to capture flow_id from Langflow
 echo "Attempting to retrieve flow_id from Langflow..."
 
