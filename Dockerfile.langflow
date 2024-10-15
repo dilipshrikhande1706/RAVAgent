@@ -1,6 +1,8 @@
 # Dockerfile.langflow
-# Use an official Python runtime as a parent image
-FROM  python:3.10-slim
+FROM python:3.10-slim
+
+# Install Docker CLI
+RUN apt-get update && apt-get install -y docker.io
 
 # Set working directory
 WORKDIR /app
@@ -22,6 +24,9 @@ COPY . .
 
 # Make sure run.sh script is executable
 RUN chmod +x ./run.sh
+
+# Add the volume mount for the Docker socket
+VOLUME ["/var/run/docker.sock:/var/run/docker.sock"]
 
 # Default command to run your custom script
 CMD ["./run.sh"]

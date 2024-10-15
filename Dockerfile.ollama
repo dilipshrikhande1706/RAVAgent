@@ -4,14 +4,12 @@ FROM ollama/ollama:latest
 # Expose Ollama's port
 EXPOSE 11434
 
-# Install Ollama (might not be necessary with the base image)
-# RUN apt-get update && apt-get install -y ollama  # Uncomment if needed
-
 # Copy Ollama binary to a directory in the container's path
 COPY --from=0 /usr/local/bin/ollama /usr/bin/ollama
 
-# Pull the nomic-embed-text model
-RUN ollama pull nomic-embed-text:latest
+# Pull the llama3.2 embedding model
+RUN ollama pull nomic-embed-text
 
 # Start Ollama (if necessary, customize this command)
 CMD ["ollama", "serve"]
+

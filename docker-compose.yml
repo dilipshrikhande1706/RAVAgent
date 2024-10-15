@@ -1,34 +1,36 @@
 version: '3.8'
 services:
   ravagent-ollama:
-    image: ollama/ollama:latest  # Use the latest Ollama image
+    image: ollama/ollama:latest
     ports:
-      - "11434:11434"  # Map port 11434 on the host to port 11434 in the container
+      - "11434:11434"
     environment:
-      - OLLAMA_HOST=http://ravagent-ollama:11434  # Set host variable for accessibility
+      - OLLAMA_HOST=http://ravagent-ollama:11434
     volumes:
-      - ollama_data:/root/.ollama  # Persist data in the Ollama container
+      - ollama_data:/root/.ollama
     networks:
-      - ravagent_network  # Use a custom network for internal communication
+      - ravagent_network
     env_file:
-      - .env  # Load environment variables from .env file
+      - .env
 
   langflow:
     build:
       context: .
       dockerfile: Dockerfile.langflow  # Ensure this points to your Langflow Dockerfile
     ports:
-      - "7860:7860"  # Map port 7860 to host
+      - "7860:7860"
     depends_on:
       - ravagent-ollama
     networks:
-      - ravagent_network  # Use the same network for internal communication
+      - ravagent_network
     env_file:
-      - .env  # Load environment variables from .env file
+      - .env
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock  # Ensure this line is present
 
 volumes:
-  ollama_data:  # Define the volume to persist data
+  ollama_data:
 
 networks:
   ravagent_network:
-    driver: bridge  # Define a custom network using bridge driver
+    driver: bridge
