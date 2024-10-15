@@ -10,6 +10,9 @@ COPY --from=0 /usr/local/bin/ollama /usr/bin/ollama
 # Pull the llama3.2 embedding model
 RUN ollama pull nomic-embed-text
 
+# Pull the llava:latest model
+RUN ollama pull llava:latest
+
 # Start Ollama (if necessary, customize this command)
 CMD ["ollama", "serve"]
 

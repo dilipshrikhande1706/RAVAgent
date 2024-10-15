@@ -38,6 +38,18 @@ else
     echo "'nomic-embed-text' model pulled successfully."
 fi
 
+# Pull the 'llama3.1' model inside the Ollama container
+echo "Pulling 'llama3.1' model in the Ollama container..."
+docker exec "$ollama_container_id" ollama pull llama3.1
+
+# Verify if the model was pulled successfully
+if [ $? -ne 0 ]; then
+    echo "Failed to pull 'llama3.1' model."
+    exit 1
+else
+    echo "'llama3.1' model pulled successfully."
+fi
+
 # Start Langflow using environment variable for the port
 LANGFLOW_PORT=7860
 
