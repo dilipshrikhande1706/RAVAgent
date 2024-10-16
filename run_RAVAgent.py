@@ -108,7 +108,7 @@ def get_existing_flow_id(langflow_host="http://127.0.0.1:7860"):
         if flows:
             # Assuming each flow has an 'id' field
             existing_flow_id = flows[0].get('id')  # Use the first flow ID as an example
-            print(f"Existing flow ID: {existing_flow_id}")
+            # print(f"Existing flow ID: {existing_flow_id}")
             return existing_flow_id
         else:
             print("No existing flows found.")
