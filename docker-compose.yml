@@ -12,6 +12,7 @@ services:
       - ravagent_network
     env_file:
       - .env
+    pull_policy: missing
 
   langflow:
     build:
@@ -27,6 +28,7 @@ services:
       - .env
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock  # Ensure this line is present
+    pull_policy: missing
 
 volumes:
   ollama_data:
