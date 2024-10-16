@@ -132,7 +132,7 @@ def delete_flow(langflow_host="http://127.0.0.1:7860", flow_id=None):
         response = requests.delete(delete_url)
         response.raise_for_status()  # Check for HTTP errors
 
-        print(f"Flow {flow_id} deleted successfully.")
+        # print(f"Flow deleted successfully.")
         return True
     except requests.exceptions.RequestException as e:
         print(f"Error deleting flow {flow_id}: {e}")
