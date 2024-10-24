@@ -2234,7 +2234,7 @@
                             "model_name": {
                                 "trace_as_metadata": true,
                                 "options": [
-                                    "llava:latest",
+                                    "llama3.2:latest",
                                     "gemma:2b",
                                     "nomic-embed-text:latest",
                                     "llama3:latest",
@@ -2245,7 +2245,7 @@
                                 "placeholder": "",
                                 "show": true,
                                 "name": "model_name",
-                                "value": "llava:latest",
+                                "value": "llama3.2:latest",
                                 "display_name": "Model Name",
                                 "advanced": false,
                                 "dynamic": false,
